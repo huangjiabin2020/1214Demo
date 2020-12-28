@@ -113,7 +113,7 @@ public class TaskController {
      * @return
      * @throws Exception
      */
-    @PutMapping
+    @PutMapping("thirdPart")
     public String editThirdPart(@RequestBody SpringScheduledCron cron,@RequestPart Part part) throws Exception {
 
         iSpringScheduledCronService.updateById(cron);

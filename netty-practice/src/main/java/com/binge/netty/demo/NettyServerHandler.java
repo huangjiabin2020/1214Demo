@@ -8,6 +8,8 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelPipeline;
 import io.netty.util.CharsetUtil;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * 佛祖保佑  永无BUG
  *
@@ -29,8 +31,37 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
         System.out.println("看看 channel 和 pipeline 的关系");
         Channel channel = ctx.channel();
+        System.out.println("0:"+Thread.currentThread().getName());
+        channel.eventLoop().submit(()->{
+            try {
+                System.out.println("1:"+Thread.currentThread().getName());
+                Thread.sleep(5*1000);
+                System.err.println("耗时任务1被服务端执行完毕");
+                ctx.writeAndFlush(Unpooled.copiedBuffer("这是耗时任务1，客户端你应该5秒后才收到",CharsetUtil.UTF_8));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        channel.eventLoop().submit(()->{
+            try {
+                System.out.println("2:"+Thread.currentThread().getName());
+                Thread.sleep(10*1000);
+                System.err.println("耗时任务2被服务端执行完毕");
+                ctx.writeAndFlush(Unpooled.copiedBuffer("这是耗时任务2，客户端你应该10秒后才收到",CharsetUtil.UTF_8));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+        channel.eventLoop().schedule(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("do sth");
+            }
+        },10, TimeUnit.SECONDS);
+
         //本质是一个双向链接, 出站入站
-        ChannelPipeline pipeline = ctx.pipeline();
+//        ChannelPipeline pipeline = ctx.pipeline();
 
         //将 msg 转成一个 ByteBuf
         /*
@@ -49,7 +80,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        //将数据写入到缓存，并刷新
+        //将数据写入到缓存，并刷新(将缓冲的数据写入管道)
         //一般讲，我们对这个发送的数据进行编码
         ctx.writeAndFlush(Unpooled.copiedBuffer("hello, 客户端~(>^ω^<)喵",CharsetUtil.UTF_8));
     }

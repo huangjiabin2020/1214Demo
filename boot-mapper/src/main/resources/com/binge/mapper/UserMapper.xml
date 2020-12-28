@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.binge.mapper.UserMapper">
+    <select id="myQuery" parameterType="string" resultType="com.binge.entity.User">
+        select * from user
+        <where>
+            <choose>
+                <when test="age &gt; 40 || &lt; 20">
+                    name like concat('%',#{name},'%')
+                </when>
+            </choose>
+        </where>
+
+    </select>
 
 </mapper>

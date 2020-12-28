@@ -1,6 +1,8 @@
 package com.binge.test;
 
 import com.binge.DemoApplication;
+import com.binge.entity.User;
+import com.binge.mapper.UserMapper;
 import com.deepoove.poi.XWPFTemplate;
 import com.deepoove.poi.config.Configure;
 import com.deepoove.poi.data.MiniTableRenderData;
@@ -19,10 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 /**
  * 佛祖保佑  永无BUG
@@ -36,6 +35,15 @@ import java.util.Random;
 public class SpringBootTest {
     @Autowired
     BCryptPasswordEncoder encoder;
+    @Autowired
+    UserMapper userMapper;
+
+    @Test
+    public void test3(){
+        List<User> aa = userMapper.myQuery("a");
+        System.out.println(aa);
+    }
+
     @Test
     public void test1(){
         String encode = encoder.encode("123456");

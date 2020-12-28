@@ -17,7 +17,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
  **/
 public class NettyClient {
     public static void main(String[] args) throws InterruptedException {
-        //客户端需要一个事件循环组
+        //客户端只需要一个事件循环组
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             //创建客户端启动对象
