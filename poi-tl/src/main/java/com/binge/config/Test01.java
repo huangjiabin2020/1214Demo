@@ -1,9 +1,8 @@
-package com.binge.demo;
+package com.binge.config;
 
 import com.deepoove.poi.XWPFTemplate;
 import com.deepoove.poi.config.Configure;
 import com.deepoove.poi.data.ChartSingleSeriesRenderData;
-import com.deepoove.poi.data.DocxRenderData;
 import com.deepoove.poi.data.RowRenderData;
 import com.deepoove.poi.data.SeriesRenderData;
 import com.deepoove.poi.policy.DynamicTableRenderPolicy;
@@ -14,7 +13,6 @@ import lombok.experimental.Accessors;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;

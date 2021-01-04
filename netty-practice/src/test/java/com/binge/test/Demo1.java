@@ -14,15 +14,25 @@ import java.nio.ByteBuffer;
 public class Demo1 {
 
     @Test
-    public void test1(){
+    public void test1() {
         ByteBuffer buffer = ByteBuffer.allocate(5);
         for (int i = 0; i < 5; i++) {
-            buffer.put(new Byte((i+"")));
+            buffer.put(new Byte((i + "")));
         }
         //读写切换
         buffer.flip();
-        while (buffer.hasRemaining()){
+        while (buffer.hasRemaining()) {
             System.out.println(buffer.get());
+        }
+    }
+
+
+    class ListNode {
+        int val;
+        ListNode next;
+
+        public ListNode(int val) {
+            this.val = val;
         }
     }
 }

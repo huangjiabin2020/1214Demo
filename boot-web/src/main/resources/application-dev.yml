@@ -26,6 +26,17 @@ spring:
       max-file-size: 2000MB
       max-request-size: 2000MB
 
+#jwt
+jwt:
+  header: Authorization
+  # 令牌前缀
+  token-start-with: Bearer
+  # 使用Base64对该令牌进行编码
+  # (制定您的密钥)
+  base64-secret: 5YWo5LiW55WM55qE5peg5Lqn6ICF6IGU5ZCI6LW35p2l77yB
+  # 令牌过期时间 此处单位/毫秒
+  token-validity-in-seconds: 14400000
+
 #    url: jdbc:mysql://localhost:3306/demo-1214?serverTimezone=Asia/Shanghai
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 

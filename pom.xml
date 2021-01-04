@@ -18,7 +18,16 @@
         <module>netty-practice</module>
         <module>poi-tl</module>
         <module>spring-security-demo</module>
+        <module>java15-demo</module>
+        <module>elasticsearch-demo</module>
+
     </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+    </dependencies>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

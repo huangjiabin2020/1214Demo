@@ -7,6 +7,7 @@ import com.binge.utils.ServletUtil;
 import com.binge.webentity.AxiosResult;
 import com.github.xiaoymin.knife4j.core.util.CommonUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.utils.IOUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -36,7 +37,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @description:
  **/
 @RestController
-@Api("文件上传和下载")
+@Api(tags="文件上传和下载")
 @RequestMapping("file")
 @Slf4j
 public class FileController {
@@ -46,7 +47,7 @@ public class FileController {
     IUploadFileService iUploadFileService;
 
     @GetMapping(value = "download")
-    public AxiosResult download(@RequestParam Long id, HttpServletRequest request, HttpServletResponse response) {
+    public AxiosResult download( @RequestParam Long id, HttpServletRequest request, HttpServletResponse response) {
         UploadFile one = iUploadFileService.getOne(new QueryWrapper<UploadFile>().lambda().eq(UploadFile::getId, id));
         String name = one.getName();
         String suffix = one.getSuffix();

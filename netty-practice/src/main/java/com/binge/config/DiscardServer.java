@@ -1,4 +1,4 @@
-package com.binge.demo;
+package com.binge.config;
 
 import com.binge.demo2.TimeServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
@@ -9,8 +9,6 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.http.HttpClientCodec;
-import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 
 /**
  * 佛祖保佑  永无BUG
