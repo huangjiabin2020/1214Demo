@@ -23,6 +23,8 @@ public class AxiosResult extends HashMap<String, Object> {
     }
 
 
+
+
     public static AxiosResult success(AxiosStatus axiosStatus) {
         return new AxiosResult(axiosStatus);
     }

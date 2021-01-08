@@ -1,27 +1,27 @@
 package com.binge.test;
 
-import com.binge.DemoApplication;
-import com.binge.entity.User;
 import com.binge.mapper.UserMapper;
 import com.deepoove.poi.XWPFTemplate;
 import com.deepoove.poi.config.Configure;
-import com.deepoove.poi.data.MiniTableRenderData;
 import com.deepoove.poi.data.PictureRenderData;
-import com.deepoove.poi.data.RowRenderData;
-import com.deepoove.poi.data.TextRenderData;
 import com.deepoove.poi.policy.HackLoopTableRenderPolicy;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 /**
  * 佛祖保佑  永无BUG
@@ -32,16 +32,19 @@ import java.util.*;
  **/
 @org.springframework.boot.test.context.SpringBootTest
 @RunWith(SpringRunner.class)
+@PropertySource("classpath:auth.yml")
+@Component
 public class SpringBootTest {
     @Autowired
     BCryptPasswordEncoder encoder;
     @Autowired
     UserMapper userMapper;
 
+    @Value("${excludeURI}")
+    private List<String > excluedURIs;
     @Test
     public void test3(){
-        List<User> aa = userMapper.myQuery("a");
-        System.out.println(aa);
+        System.err.println(excluedURIs);
     }
 
     @Test

@@ -15,6 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @description:
  **/
 @Configuration
+
 public class WebMVCConfig implements WebMvcConfigurer {
     @Autowired
     JwtInterceptor jwtInterceptor;

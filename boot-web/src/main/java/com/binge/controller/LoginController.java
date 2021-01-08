@@ -13,14 +13,12 @@ import com.binge.webentity.AxiosResult;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.RandomUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -50,8 +48,7 @@ public class LoginController {
     EmailSender emailSender;
 
 
-    @PostMapping("email")
-
+    @PostMapping("dologin")
     public AxiosResult doLogin(@RequestBody @Validated(LoginGroup.class) User user) {
 
         String email = user.getEmail();

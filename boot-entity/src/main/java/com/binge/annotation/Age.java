@@ -1,12 +1,9 @@
 package com.binge.annotation;
 
 import javax.validation.Payload;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.lang.annotation.*;
 
-import static java.lang.annotation.ElementType.*;
-import static java.lang.annotation.ElementType.TYPE_USE;
+import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**

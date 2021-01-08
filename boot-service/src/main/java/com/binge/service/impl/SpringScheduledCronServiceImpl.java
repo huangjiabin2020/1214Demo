@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.binge.entity.SpringScheduledCron;
 import com.binge.mapper.SpringScheduledCronMapper;
 import com.binge.service.ISpringScheduledCronService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * <p>

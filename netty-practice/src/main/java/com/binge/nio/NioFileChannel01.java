@@ -1,7 +1,5 @@
 package com.binge.nio;
 
-import io.netty.buffer.ByteBuf;
-
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.nio.Buffer;

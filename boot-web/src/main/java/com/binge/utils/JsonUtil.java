@@ -6,8 +6,6 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.MapType;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.util.List;
 import java.util.Map;
 
@@ -21,9 +19,7 @@ import java.util.Map;
 @Component
 public class JsonUtil {
 
-    private  static ObjectMapper objectMapper=new ObjectMapper();
-
-   
+    private static ObjectMapper objectMapper = new ObjectMapper();
 
     public String obj2Str(Object obj) {
         if (obj instanceof String) {
@@ -31,7 +27,7 @@ public class JsonUtil {
         }
         String s = "";
         try {
-            s =objectMapper.writeValueAsString(obj);
+            s = objectMapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -71,7 +67,6 @@ public class JsonUtil {
         }
         return null;
     }
-
 
 
 }

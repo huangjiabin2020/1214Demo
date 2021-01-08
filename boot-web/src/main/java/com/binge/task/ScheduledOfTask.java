@@ -2,7 +2,6 @@ package com.binge.task;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.binge.entity.SpringScheduledCron;
-import com.binge.mapper.SpringScheduledCronMapper;
 import com.binge.service.ISpringScheduledCronService;
 import com.binge.utils.GetBean;
 

@@ -1,31 +1,41 @@
 package com.binge.controller;
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.EasyExcelFactory;
+import com.alibaba.excel.ExcelReader;
+import com.alibaba.excel.metadata.Sheet;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.binge.entity.UploadFile;
+import com.binge.listener.DemoDataListener;
 import com.binge.service.IUploadFileService;
-import com.binge.utils.ServletUtil;
+import com.binge.utils.GetBean;
+import com.binge.utils.JdbcUtil;
+import com.binge.utils.MyUtils;
 import com.binge.webentity.AxiosResult;
-import com.github.xiaoymin.knife4j.core.util.CommonUtils;
 import io.swagger.annotations.Api;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.compress.utils.IOUtils;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowCountCallbackHandler;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.jdbc.support.rowset.SqlRowSetMetaData;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import javax.validation.constraints.NotNull;
 import java.io.*;
 import java.net.URLEncoder;
+import java.sql.Connection;
+import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -44,6 +54,63 @@ public class FileController {
     ThreadPoolExecutor threadPoolExecutor;
     @Autowired
     IUploadFileService iUploadFileService;
+    @Autowired
+    JdbcUtil jdbcUtil;
+
+    /**
+     * 根据表名导出对应的Excel
+     *
+     * @param tableName
+     * @return
+     */
+    @SneakyThrows
+    @GetMapping("exportexcel")
+    public void exportexcel(String tableName,
+                            @RequestParam(defaultValue = "100") Long limit,
+                            HttpServletResponse response) {
+       /* List<Map<String, Object>> maps = jdbcUtil.jdbcTableValue(tableName);
+        System.out.println(maps);*/
+
+        List<List> lists = jdbcUtil.jdbcTableValue(tableName, String.valueOf(limit));
+        response.setContentType("application/vnd.ms-excel");
+        response.setCharacterEncoding("utf-8");
+        String fileName = URLEncoder.encode(tableName, "UTF-8");
+        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
+        lists.forEach(System.out::println);
+        EasyExcel.write(response.getOutputStream()).sheet("模板").doWrite(lists);
+    }
+
+    @SneakyThrows
+    @PostMapping("importexcel")
+    public AxiosResult importexcel(@RequestPart MultipartFile file) {
+        String fileName = file.getOriginalFilename();
+        int index = fileName.lastIndexOf(".");
+
+        String suffix = fileName.substring(index + 1);
+        String name = fileName.substring(0, index);
+//        name = MyUtils.captureName(name);
+//        log.info(name);
+//        log.info(suffix);
+        DemoDataListener listener = new DemoDataListener();
+        ExcelReader excelReader = EasyExcelFactory.read(file.getInputStream(), null, listener).headRowNumber(0).build();
+        excelReader.read();
+        List<List<String>> lists = listener.getDatas();
+        //默认第一行是字段名，第二行开始是一条条的记录
+        List<String> fieldNames = lists.get(0);
+        List<Map<String, Object>> maps = new ArrayList<>();
+        for (int i = 1; i < lists.size(); i++) {
+            HashMap<String, Object> fields = new HashMap<>();
+            for (int j = 0; j < fieldNames.size(); j++) {
+                fields.put(fieldNames.get(j), lists.get(i).get(j));
+            }
+            maps.add(fields);
+        }
+        jdbcUtil.executeBatchInsert(name, maps);
+        excelReader.finish();
+        return AxiosResult.success(lists);
+
+    }
+
 
     @GetMapping(value = "download")
     public AxiosResult download(@RequestParam Long id, HttpServletRequest request, HttpServletResponse response) {
@@ -56,7 +123,7 @@ public class FileController {
         try (FileInputStream fis = new FileInputStream(address)) {
             response.reset();
             //文件名必须包括.后缀名，不然用户下载的都是.file类型
-            response.addHeader("Content-Disposition", "attachment; filename=\"" + name+"."+suffix + "\"");
+            response.addHeader("Content-Disposition", "attachment; filename=\"" + name + "." + suffix + "\"");
             //循环读取流
             byte[] bytes = new byte[1024];
             int len = 0;
@@ -153,12 +220,13 @@ public class FileController {
         String dir = root + "/" + hex.charAt(0) + "/" + hex.charAt(1) + "/";
         //创建目录链
         new File(dir).mkdirs();
-        return dir + savename +"."+ suffix;
+        return dir + savename + "." + suffix;
 
     }
 
     /**
      * 根据文件全名获取前后缀
+     *
      * @param submittedFileName
      * @return [文件名，文件类型]
      */
@@ -167,7 +235,7 @@ public class FileController {
         int lastIndex = submittedFileName.lastIndexOf(".");
         String prefix = submittedFileName.substring(0, lastIndex);
         //jpg之类的
-        String suffix = submittedFileName.substring(lastIndex+1);
+        String suffix = submittedFileName.substring(lastIndex + 1);
         return new String[]{prefix, suffix};
     }
 

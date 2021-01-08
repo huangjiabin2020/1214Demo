@@ -1,5 +1,13 @@
 server:
-  port: 8080
+  port: 8089
+  #Https 配置   HttpsConfig 打开
+  ssl:
+    #你生成的证书名字
+    key-store: server.keystore
+    #密钥库密码
+    key-store-password: 123456
+    key-store-type: JKS
+    key-alias: tomcat
 
 spring:
   datasource:
@@ -25,6 +33,10 @@ spring:
     multipart:
       max-file-size: 2000MB
       max-request-size: 2000MB
+  security:
+    user:
+      name: user
+      password: 123
 
 #    url: jdbc:mysql://localhost:3306/demo-1214?serverTimezone=Asia/Shanghai
 #    driver-class-name: com.mysql.cj.jdbc.Driver
@@ -44,3 +56,17 @@ logging:
     rollingpolicy:
       max-file-size: 1MB
 
+jdbc:
+  driver: com.mysql.cj.jdbc.Driver
+  url: jdbc:mysql://localhost:3306/demo-1214?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+  user: root
+  password: root
+#binge:
+#  excludeURI: /auth,/login/sendEmailCode,/login/dologin
+#  students:
+#    - aaa
+#    - bbb
+#    - ccc
+#
+#auth:
+#  excludeURI: /auth,/login/sendEmailCode,/login/dologin

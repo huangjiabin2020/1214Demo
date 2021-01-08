@@ -3,8 +3,6 @@ package com.binge.interceptor;
 import com.binge.annotation.RequestLimit;
 import com.binge.common.Constant;
 import com.binge.exception.MyException;
-import com.binge.utils.JsonUtil;
-import com.binge.utils.ServletUtil;
 import com.binge.webentity.AxiosResult;
 import com.binge.webentity.AxiosStatus;
 import lombok.extern.slf4j.Slf4j;

@@ -1,21 +1,7 @@
 package com.binge.interceptor;
 
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.binge.common.Constant;
-import com.binge.entity.User;
-import com.binge.exception.MyException;
 import com.binge.handler.TokenHandler;
-import com.binge.utils.GetBean;
-import com.binge.utils.JsonUtil;
-import com.binge.utils.JwtUtil;
-import com.binge.webentity.AxiosResult;
-import com.binge.webentity.AxiosStatus;
-import com.github.xiaoymin.knife4j.core.util.StrUtil;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
